@@ -2,21 +2,14 @@ package main
 
 import (
 	"fmt"
-	"net/http"
-	"github.com/go-chi/chi/v5"
+	"context"
+	"github.com/MattM27538/Microservice1/application"
 )
 
 func main(){
-	server:=&http.Server{
-		Addr:":3000",
-		Handler: http.HandlerFunc(myHandler),
-	}
-	err:=server.ListenAndServe()
+	app:=application.NewApp()
+	err:=app.Start(context.TODO())
 	if err!=nil{
-		fmt.Println("Error listening to server.")
+		fmt.Println("failed to start app:", err)
 	}
 } 
-
-func myHandler(w http.ResponseWriter, r *http.Request){
-	w.Write([]byte("Hi guy"))
-}
