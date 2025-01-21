@@ -5,11 +5,11 @@ import (
 	"context"
 	"os"
 	"os/signal"
-	"github.com/MattM27538/Microservice1/application"
+	"github.com/MattM27538/Orders-API-Golang-Chi/application"
 )
 
 func main(){
-	app:=application.NewApp()
+	app:=application.NewApp(application.LoadConfig())
 
 	ctx, cancel:=signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
