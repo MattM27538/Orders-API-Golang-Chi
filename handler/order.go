@@ -20,13 +20,13 @@ type Order struct {
 	Repo *order.RedisRepo
 }
 
-func (h *Order) Create(w http.ResponseWriter, r *http.Request) {
+func (h *Order) Create(w http.ResponseWriter,r *http.Request) {
 	var body struct {
 		CustomerID uuid.UUID        `json:"customer_id"`
 		LineItems  []model.LineItem `json:"line_items"`
 	}
 
-	if err:=json.NewDecoder(r.Body).Decode(&body); err != nil {
+	if err:=json.NewDecoder(r.Body).Decode(&body);err!=nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -74,8 +74,8 @@ func (h *Order) List(w http.ResponseWriter,r *http.Request) {
 
 	const size=50
 	res,err:=h.Repo.FindAll(r.Context(),order.FindAllPage{
-		Offset: cursor,
-		Size:   size,
+		Offset:cursor,
+		Size:size,
 	})
 	if err!=nil {
 		fmt.Println("failed to find all:",err)
@@ -122,7 +122,7 @@ func (h *Order) GetByID(w http.ResponseWriter,r *http.Request) {
 		return
 	}
 
-	if err:=json.NewEncoder(w).Encode(o); err!=nil {
+	if err:=json.NewEncoder(w).Encode(o);err!=nil {
 		fmt.Println("failed to marshal:",err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -134,7 +134,7 @@ func (h *Order) UpdateByID(w http.ResponseWriter, r *http.Request) {
 		Status string `json:"status"`
 	}
 
-	if err:=json.NewDecoder(r.Body).Decode(&body); err!=nil {
+	if err:=json.NewDecoder(r.Body).Decode(&body);err!=nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -184,12 +184,12 @@ func (h *Order) UpdateByID(w http.ResponseWriter, r *http.Request) {
 
 	err=h.Repo.Update(r.Context(),theOrder)
 	if err!=nil {
-		fmt.Println("failed to insert:", err)
+		fmt.Println("failed to insert:",err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	if err:=json.NewEncoder(w).Encode(theOrder); err!=nil {
+	if err:=json.NewEncoder(w).Encode(theOrder);err!=nil {
 		fmt.Println("failed to marshal:",err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
